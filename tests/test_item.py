@@ -19,3 +19,18 @@ def test_calculate_total_price(item1):
 def test_apply_discount(item1, get_pay_rate):
     product_discount = (item1[1] * get_pay_rate) / 100
     assert product_discount == 24_000, "Если ты видишь это сообщение, значит тут ошибка!"
+
+
+def test_instantiate_from_csv(path) -> None:
+    Item.instantiate_from_csv(path)
+    product = Item.all[3]
+    assert product.name == 'Мышка', f"Ошибка в наименовании продукта {product.name}"
+    assert product.price == 50, f"Ошибка в стоимости {product.price} продукта {product.name}"
+    assert product.quantity == 5, f"Ошибка в количестве {product.quantity} продукта {product.name}"
+
+
+def test_string_to_number():
+    assert Item.string_to_number('6') == 6
+    assert Item.string_to_number('6.0') == 6
+    assert Item.string_to_number('6.6') == 6
+    assert Item.string_to_number('6.66') == 6
