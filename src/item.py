@@ -68,7 +68,13 @@ class Item:
         return int(float(value))
 
     def __repr__(self):
+        """
+        Магический метод для отображения информации об объекте класса в режиме отладки (для разработчиков).
+        """
         return f"Item{self.__name, self.price, self.quantity}"
 
     def __str__(self):
+        """
+        Магический метод для отображения информации об объекте класса для пользователей.
+        """
         return f"{self.__name}"
