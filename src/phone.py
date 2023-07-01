@@ -42,6 +42,8 @@ class Phone(Item):
         """
         if isinstance(any_lot, (Item, Phone)):
             return self.quantity + any_lot.quantity
+        else:
+            raise TypeError("Unable to stack Phone or Item with another type of object.")
 
     def __radd__(self, any_lot):
         """
