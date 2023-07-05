@@ -55,10 +55,16 @@ class Item:
         """
         Метод инициализирует экземпляры класса Item данными из CSV-файла.
         """
-        cls.all.clear()
-        with open(path, 'r', encoding='windows-1251') as csvfile:
-            file_csv = csv.DictReader(csvfile, delimiter=',')
-            [cls(row["name"], float(row["price"]), int(row["quantity"])) for row in file_csv]
+        try:
+            cls.all.clear()
+            with open(path, 'r', encoding='windows-1251') as csvfile:
+                file_csv = csv.DictReader(csvfile, delimiter=',')
+                for row in file_csv:
+                    if "name" not in row or "price" not in row or "quantity" not in row:
+                        raise InstantiateCSVError("Файл item.csv поврежден")
+                [cls(row["name"], float(row["price"]), int(row["quantity"])) for row in file_csv]
+        except FileNotFoundError:
+            raise FileNotFoundError("Отсутствует файл items.csv")
 
     @staticmethod
     def string_to_number(value: str) -> int:
@@ -78,3 +84,13 @@ class Item:
         Магический метод для отображения информации об объекте класса для пользователей.
         """
         return f"{self.__name}"
+
+
+class InstantiateCSVError(Exception):
+    """
+    Класс-исключение, если файл `item.csv` поврежден (например, отсутствует одна из колонок данных), то
+    выводится исключение `InstantiateCSVError` с сообщением “_Файл item.csv поврежден_”.
+    """
+
+    def __init__(self, message):
+        self.message = message
