@@ -54,6 +54,8 @@ class Item:
     def instantiate_from_csv(cls, path=CSV_ITEMS_PATH) -> None:
         """
         Метод инициализирует экземпляры класса Item данными из CSV-файла.
+        Так же метод ведет обработку исключений для файла `items.csv`, из которого
+        по умолчанию считываются данные.
         """
         try:
             cls.all.clear()
